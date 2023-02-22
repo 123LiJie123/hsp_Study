@@ -1,0 +1,208 @@
+——文件
+   - 什么是文件
+        文件，对我们并不陌生，文件是保存数据的地方，比如大家经常使用的Word文档，txt文件，excel文件...都是文件。它既可以保存
+       一张图片，也可以保存视频，声音……
+   - 文件流
+        文件在程序中是以流的形式来操作的
+          java程序（内存）<———输入流———文件（磁盘）
+          java程序（内存）———输出流———>文件（磁盘）
+
+          流： 数据在数据源（文件）和程序（内存）之间经历的路径。
+          输入流：数据从数据源（文件）到程序（内存）的路径。
+          输出流：数据从程序（内存）到数据源（文件）的路径。
+
+    - 创建文件对象相关构造器和方法
+    - 相关方法【FileCreate.java】
+     new File(String pathname) //根据路径构建一个File对象
+     new File(File parent, String child)  //根据父目录文件 + 子路径构建
+     new File(String parent, String child)  //根据父目录 + 子路径构建
+     createNewFile  根据File对象创建出文件
+
+
+    - 获取文件的相关信息 【FileInformation.java】
+    如何获取到文件的大小，文件名，路径，父File,是文件还是目录（目录本质也是文件，一种特殊的文件），文件是否存在。
+
+    - 目录的操作和文件删除【Directory_.java】
+     mkdir创建一级目录
+     mkdirs创建多级目录
+     delete删除空目录或一个文件
+
+
+—— IO流原理及流的分类
+   - Java IO流原理
+    1. I/O是Input/Output的缩写， I/O技术是非常实用的技术，用于处理数据传输。
+     如读/写文件，网络通讯等。
+
+   2. Java程序中，对于数据的输入/输出操作以“流（stream）”的方式进行。
+
+   3. java.io包下提供了各种“流”类和接口，用以获取不同种类的数据，并通过方法输入或输出数据。
+
+   4.输入input：读取外部数据（磁盘、光盘等存储设备的数据）到程序（内存）中。
+
+   5.输出output：将程序（内存）数据输出到磁盘、光盘等存储设备中
+
+  - 流的分类
+    按操作数据单位不同分为：字节流（8 bit）,字符流（按字符）
+    按数据流的流向不同分为：输入流，输出流
+    按流的角色不同分为：节点流，处理流/包装流
+
+     |---------------------------------------|
+     |抽象基类    |    字节流       | 字符流  |
+     | 输入流     |  InputStream    | Reader |
+     | 输出流     |  OutputStream   | Writer |
+     |---------------------------------------|
+
+    （2）Java的IO流共涉及40多个类，实际上非常规则，都是从如上4个抽象基类派生的。
+    （2）由这四个类派生出来的子类名称都是以其父类名作为子类名后缀。
+
+
+   - InputStream：字节输入流
+       InputStream抽象类是所有类字节输入流的超类
+    - inputStream常用子类
+      1、fileInputStream： 文件输入流
+          - 构造器
+             FileInputStream(File file): 通过打开一个到实际文件的连接来创建一个 FileInputStream，该文件通过文件系统中的 File 对象 file 指定。
+             FileInputStream(FileDescriptor fdObj): 通过使用文件描述符 fdObj 创建一个 FileInputStream，该文件描述符表示到文件系统中某个实际文件的现有连接。
+             FileInputStream(String name): 通过打开一个到实际文件的连接来创建一个 FileInputStream，该文件通过文件系统中的路径名 name 指定。
+          -  如何用FileInputStream读文件？
+             方法一、【FileInputStream_.java】readFile01方法
+                  通过FileInputStream对象的read()方法来一个字节一个字节的读取文件中的内容，若read方法返回-1则此方法阻塞，文件读取完毕。
+
+             方法二、【FileInputStream_.java】readFile02方法
+                   通过FileInputStream对象的read(byte[length] b) 方法一次读取length个字节到b数组中，一个字节占一个下标位，再通过将byte转换成String对象达到数据读写，若read方法返回-1则此方法阻塞，文件读取完毕。
+
+      2、BufferedInputStream：缓冲字节输入流
+      3、ObjectInputStream：对象字节输入流
+
+   - OutputStream：字节输出流
+       OutputStream抽象类所有类字节输出流的超类
+    - OutputStream常用子类
+      1、FileOutputStream: 文件输出流
+      - 构造器
+        new FileOutputStream(filePath) 此创建方式，当每次程序执行写入内容时，是覆盖原来的内容
+        new FileOutputStream(filePath,true) 此创建方式，当每次程序执行写入内容时，是追加到文件后
+        注意：
+        加true是控制要不要覆盖原来文件的内容，如果一次程序执行多次向同一个FileOutputStream对象中输入流数据，则不会有覆盖的问题产生。
+      - 如何使用FileOutputStream写文件【FileOutPutStream_.java】
+        方法一、写入一个字节:
+         fileOutputStream.write('a');
+        方法二、写入字符串
+         String writeString = "root";
+         str.getBytes() 可以把字符串--->字节数组
+         fileOutputStream.write(writeString.getBytes());
+        方法三、write(byte[] b, int off, int len)  将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此文件输出流
+         String writeString = "root";
+         fileOutputStream.write(writeString.getBytes(), 0, writeString.length());
+
+      2、BufferedOutputStream
+      3、ObjectOutputStream
+
+
+
+
+
+   - Reader：字符输入流
+     - Reader常用子类
+       1、FileReader
+        FileReader相关方法
+        1)new FileReader(File/String);
+        2)read():每次读取单个字符，返回该字符，如果到文件末尾返回-1
+        3)read(char[]): 批量读取多个字符到数组，返回读取到的字符数，如果到文件末尾返回-1
+   - Writer: 字符输出流
+     - Writer常用子类
+       1、FileWriter
+        FileWriter相关方法
+        1）new FileWriter(File/String):覆盖模式，相当于流的指针在首端
+        2）new FileWriter(File/String,true):追加模式，相当于流的指针在尾端
+        3）write(int):写入单个字符
+        4）write(char[]):写入指定数组
+        5）write(char[],off,len)写入指定数组的指定部分
+        6）write(string):写入整个字符串
+        7）write(string,off,len):写入字符串的指定部分
+        相关API:String类：toCharArray:将String转换成char[].
+        注意：
+        FileWriter使用后，必须要关闭（close）或刷新（flush）,否则写入不到指定的文件！
+
+   - 节点流和处理流
+    1、节点流可以从一个特定的数据源读写数据，如FileReader、FileWriter
+    2、处理流（也叫包装流）是“连接”在已存在的流（节点流或处理流）之上，为程序提供更为强大的读写功能，如BufferedReader、BufferedWriter。
+     -节点流和处理流的区别和联系
+        1、节点流是底层流/低级流，直接跟数据源相接。
+        2、处理流包装节点流，既可以消除不同节点流的实现差异，也可以提供更方便的方法来完成输入输出。
+        3、处理流（也叫包装流）对节点流进行包装，使用了修饰器设计模式，不会直接与数据源相连。【修饰器的设计模式】
+
+     -处理流的功能主要体现在以下两个方面：
+        1、性能提高：主要增加缓冲的方式来提高输入输出的效率。
+        2、操作的便捷：处理流可能提供了一系列便捷的方法来一次输出大批量的数据，使用更加灵活方便。
+
+     - 处理流
+        BufferedReader
+        BufferedWriter
+        1、BufferedReader和BufferedWriter属于字符流，是按照字符来读取数据的
+        2、关闭时，只需要关闭外层流即可
+     - 处理流-BufferedInputStream和BufferedOutputStream
+        1、BufferedInputStream和BufferedOutputStream属于字节流，是按照字节来读取数据的
+        2、关闭时，只需要关闭外层流即可
+
+
+
+    - 对象处理流
+      ObjectInputStream
+      ObjectOutputStream
+          序列化和反序列化
+            1、序列化就是保存数据时，保存数据的值和数据类型
+            2、反序列化就是在恢复数据时，恢复数据的值和数据类型,反序列化的那个文件类型格式要和序列化时类型格式保持一致（读写顺序一致）否则会报EOF错
+            3、需要让某个对象支持序列化机制，则必须让其类是可序列化的，为了让某个类是可序列化的，该类必须实现如下两个接口之一：
+              1）Serializable  //这是一个标记接口，没有方法
+              2）Externalizable
+            5、序列化的类中建议添加serialVersionUID，为了提高版本的兼容性。
+            4、在对更改后的对象进行反序化时，要重新序列化此对象否则会报InvalidClassException
+            5、序列化对象时，默认将里面所有属性都进行序列化，但除了static或transient修饰的成员
+            6、序列化对象时，要求里面的属性的类型也需要实现序列化接口。
+            7、序列化具备可继承性，也就是如果某类已经实现了序列化，则它的所有子类也已经默认实现了序列化。
+
+    - 标准输入输出流
+        System.in
+        System.out
+
+       传统方法System.out.println("");是使用out对象将数据输出到显示器
+       Out解读:
+        1、System类的public final static PrintStream out = null;
+        2、编译类型PrintStream
+        3、运行类型PrintStream
+        4、表示标准输出 -->显示器
+
+      in解读：
+       1、System 类的public final static InputStream in = null;
+       2、System.in 编译类型 InputStream
+       3、System.in 运行类型 BufferedInputStream
+       4、表示的是标准输入--->键盘
+
+
+    - 转换流
+      InputStreamReader【transformation.InputStreamReader.java】
+      OutputStreamWriter【transformation.OutputStreamWriter.java】
+      转换流其就是将字节流转换为字符流
+      1、InputStreamReader: Reader的子类，可以将InputStream(字节流)包装成Reader(字符流)
+      2、OutputStreamWriter：Writer的子类，实现将OutputStream(字节流)包装成Writer(字符流)
+      3、当处理纯文本数据时，如果使用字符流效率更高，并且可以有效解决中文问题，所以建议将字节流转换成字符流
+      4、可以在使用时指定编码格式（比如utf-8,gbk,gb2312,ISO8859-1等）
+
+
+    - 打印流
+       打印流只有输出流，没有输入流
+       PrintWriter：打印字符流
+       PrintStream：打印字节流   //在默认情况下，PrintStream输出数据的位置是标准输出，即显示器
+
+- Properties类
+  （1）专门用于读写配置文件的集合类
+        配置文件的格式：
+         键=值
+         键=值
+  （2）注意：键值对不需要有空格，值不需要用引号引起来，默认类型是String
+  （3）Properties的常见方法
+        load：加载配置文件的键值对到Properties对象
+        list：将数据显示到指定设备
+        getProperty(key)：根据键获取值
+        setProperty(key)：设置键值对到Properties对象
+        store：将Properties中的键值对存储到配置文件，在idea中，保存信息到配置文件，如果含有中文且是用字节流存储，会存储为unicode码

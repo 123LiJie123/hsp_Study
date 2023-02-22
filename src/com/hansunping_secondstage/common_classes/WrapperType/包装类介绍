@@ -1,0 +1,20 @@
+1、针对八种基本类型相应的引用类型—包装类
+2、有了类的特点，就可以调用类中的方法
+
+基本数据类型所对应的包装类：(WrapperType.java)
+boolean  -----     Boolean
+char     -----     Character
+byte     -----     Byte
+short    -----     Short
+int      -----     Integer
+long     -----     Long
+float    -----     Float
+double   -----     Double
+
+
+
+
+--- 包装类和基本数据的转换
+ 1）Jdk5前的手动装箱和拆箱方式，装箱：基本类型->包装类型，反之即是拆箱
+ 2）Jdk5以后（含jdk5）的自动装箱和拆箱方式
+ 3）自动装箱底层调用的是valueOf方法，比如Integer.valueOf()

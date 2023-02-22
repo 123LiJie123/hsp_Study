@@ -1,0 +1,26 @@
+String类的理解和创建对象
+
+String01.java
+1)String对象用于保存字符串，也就是一组字符序列
+2）字符串常量对象是用双引号括起的字符序列。例如："你好"、"12.97"、"boy"等
+3）字符串的字符使用Unicode字符编码，一个字符（不区分字母还是汉字）占两个字节
+4）String类较常用的构造方法
+String s1 = new String();
+String s2 = new String(String original);
+String s3 = new String(char[]a);
+String s4 = new String(char[] a,int startIndex, int count);
+
+5)String类实现了接口Serializable【String实现串行化：可以在网络上传输】
+                接口Comparable【String对象可以比较大小】
+6）String是final类，不能被其他的类继承
+7）String有属性private final char value[];用于存放字符串内容。  value是一个final类型，不可以修改
+
+
+- 两种创建String对象的区别
+方式一： 直接赋值 String="xxx";
+方式二：调用构造器 String s2 = new String("xxx");
+1、方式一：先从常量池查看是否有"xxx"数据空间，如果有，直接指向；如果没有则重新创建，然后指向。最终指向
+的是常量池的空间地址。
+
+2、方式二：先在堆中创建空间，里面维护了value属性，指向常量池的"xxx"空间。如果常量池没有"xxx"，重新创建，如果有，
+直接通过value指向。最终指向的是堆中的空间地址。
