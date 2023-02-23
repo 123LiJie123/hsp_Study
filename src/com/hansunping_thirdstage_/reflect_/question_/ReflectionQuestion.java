@@ -1,4 +1,6 @@
-package com.hansunping_thirdstage_.reflect_;
+package com.hansunping_thirdstage_.reflect_.question_;
+
+import com.hansunping_thirdstage_.reflect_.question_.Cat;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +13,7 @@ public class ReflectionQuestion {
         //根据配置文件 re.properties指定信息，创建Cat对象并调用方法hi
         Properties properties = new Properties();
 
-        properties.load(new FileInputStream("src\\com\\hansunping_thirdstage_\\reflect_\\re.properties"));
+        properties.load(new FileInputStream("src\\com\\hansunping_thirdstage_\\reflect_\\question_\\re.properties"));
         String classfullpath = properties.get("classfullpath").toString();
         String method = properties.get("method").toString();
 
